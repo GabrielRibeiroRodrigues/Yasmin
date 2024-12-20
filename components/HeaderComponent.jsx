@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, Pressable, Modal, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function Header({ title, items, color, navigation }) {
   const [menuVisible, setMenuVisible] = useState(false);
+  
 
   const handleMenuToggle = () => {
     setMenuVisible(!menuVisible);
@@ -24,7 +27,6 @@ export default function Header({ title, items, color, navigation }) {
         </Pressable>
       </View>
 
-      {/* Modal para o menu expansível */}
       <Modal
         visible={menuVisible}
         animationType="fade"

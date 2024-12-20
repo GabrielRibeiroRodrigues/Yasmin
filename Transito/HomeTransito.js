@@ -5,19 +5,19 @@ const headerTitle = "Trânsito";
 const headerItems = [
     ['Home', 'HomeTransito'],
     ['Registro de Veículos', 'placaCadastro'],
-    ['Lista de Veículos', 'placaCadastro'],
+    ['Lista de Veículos', 'placaLista'],
 ];
 const headerColor = '#0051ff';
-
 const HomeScreen = ({ navigation }) => {
     return (
         <View style={styles.appContainer}>
+     
             <Header
     title={headerTitle}
     items={headerItems}
     color={headerColor}
     navigation={navigation}
-/>;
+/>
             <View style={styles.container}>
 
                 <TouchableOpacity
