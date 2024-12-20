@@ -353,6 +353,8 @@ const renderField = (field) => {
             // console.error("O mês deve estar entre 1 e 12.");
             return false;
           }
+          
+
           if (year < 1930) {
             // console.error("O ano não pode ser menor que 1930.");
             return false;
@@ -487,11 +489,220 @@ const renderField = (field) => {
                     const labelModificada = labels[columnName] || columnName; // Use os labels personalizados aqui
         
                     if (type === "text") {
+                      if (columnName === "cpf") {
+                        return (
+                          <View key={columnName} style={styles.fieldContainer}>
+                            <Text style={styles.label}>{labelModificada}</Text>
+                            <TextInputMask
+                              type={"cpf"}
+                              value={value}
+                              onChangeText={(text) => {
+                                setInlineFields((prevFields) => {
+                                  const updatedFieldSet = [...prevFields[label]];
+                                  updatedFieldSet[index] = updatedFieldSet[index].map((field) =>
+                                    field.columnName === columnName ? { ...field, value: text } : field
+                                  );
+                    
+                                  setFormData((prevData) => ({
+                                    ...prevData,
+                                    [label]: updatedFieldSet,
+                                  }));
+                    
+                                  return { ...prevFields, [label]: updatedFieldSet };
+                                });
+                              }}
+                              style={styles.input}
+                              placeholder={labelModificada}
+                            />
+                          </View>
+                        );
+                      } else if (columnName === "rg") {
+                        return (
+                          <View key={columnName} style={styles.fieldContainer}>
+                            <Text style={styles.label}>{labelModificada}</Text>
+                            <TextInputMask
+                              type={"custom"}
+                              options={{
+                                mask: "99.999.999",
+                              }}
+                              value={value}
+                              onChangeText={(text) => {
+                                setInlineFields((prevFields) => {
+                                  const updatedFieldSet = [...prevFields[label]];
+                                  updatedFieldSet[index] = updatedFieldSet[index].map((field) =>
+                                    field.columnName === columnName ? { ...field, value: text } : field
+                                  );
+                    
+                                  setFormData((prevData) => ({
+                                    ...prevData,
+                                    [label]: updatedFieldSet,
+                                  }));
+                    
+                                  return { ...prevFields, [label]: updatedFieldSet };
+                                });
+                              }}
+                              style={styles.input}
+                              placeholder={labelModificada}
+                            />
+                          </View>
+                        );
+                      } else if (
+                        columnName[0] === "d" &&
+                        columnName[1] === "a" &&
+                        columnName[2] === "t" &&
+                        columnName[3] === "a"
+                      ) {
+                        const isValidDate = (dateString) => {
+                          const [day, month, year] = dateString.split("/").map(Number);
+                    
+                          if (day < 1 || day > 30) return false;
+                          if (month < 1 || month > 12) return false;
+                          if (year < 1930) return false;
+                          return true;
+                        };
+                    
+                        return (
+                          <View key={columnName} style={styles.fieldContainer}>
+                            <Text style={styles.label}>{labelModificada}</Text>
+                            <TextInputMask
+                              type={"datetime"}
+                              options={{
+                                format: "DD/MM/YYYY",
+                              }}
+                              value={value}
+                              onChangeText={(text) => {
+                                if (isValidDate(text)) {
+                                  setInlineFields((prevFields) => {
+                                    const updatedFieldSet = [...prevFields[label]];
+                                    updatedFieldSet[index] = updatedFieldSet[index].map((field) =>
+                                      field.columnName === columnName ? { ...field, value: text } : field
+                                    );
+                    
+                                    setFormData((prevData) => ({
+                                      ...prevData,
+                                      [label]: updatedFieldSet,
+                                    }));
+                    
+                                    return { ...prevFields, [label]: updatedFieldSet };
+                                  });
+                                } else {
+                                  console.error("Data inválida:", text);
+                                }
+                              }}
+                              style={styles.input}
+                              placeholder={labelModificada}
+                            />
+                          </View>
+                        );
+                      } else if (columnName === "telefone") {
+                        return (
+                          <View key={columnName} style={styles.fieldContainer}>
+                            <Text style={styles.label}>{labelModificada}</Text>
+                            <TextInputMask
+                              type={"custom"}
+                              options={{
+                                mask: "(99) 99999-9999",
+                              }}
+                              value={value}
+                              onChangeText={(text) => {
+                                setInlineFields((prevFields) => {
+                                  const updatedFieldSet = [...prevFields[label]];
+                                  updatedFieldSet[index] = updatedFieldSet[index].map((field) =>
+                                    field.columnName === columnName ? { ...field, value: text } : field
+                                  );
+                    
+                                  setFormData((prevData) => ({
+                                    ...prevData,
+                                    [label]: updatedFieldSet,
+                                  }));
+                    
+                                  return { ...prevFields, [label]: updatedFieldSet };
+                                });
+                              }}
+                              style={styles.input}
+                              placeholder={labelModificada}
+                            />
+                          </View>
+                        );
+                      } else if (
+                        columnName[0] == "v" &&
+                        columnName[1] == "a" &&
+                        columnName[2] == "l" &&
+                        columnName[3] == "o" &&
+                        columnName[4] == "r"
+                      ) {
+                        return (
+                          <View key={columnName} style={styles.fieldContainer}>
+                            <Text style={styles.label}>{labelModificada}</Text>
+                            <TextInputMask
+                              type={"money"}
+                              options={{
+                                precision: 2,
+                                separator: ",",
+                                delimiter: ".",
+                                unit: "R$",
+                                suffixUnit: "",
+                              }}
+                              value={value}
+                              onChangeText={(text) => {
+                                setInlineFields((prevFields) => {
+                                  const updatedFieldSet = [...prevFields[label]];
+                                  updatedFieldSet[index] = updatedFieldSet[index].map((field) =>
+                                    field.columnName === columnName ? { ...field, value: text } : field
+                                  );
+                    
+                                  setFormData((prevData) => ({
+                                    ...prevData,
+                                    [label]: updatedFieldSet,
+                                  }));
+                    
+                                  return { ...prevFields, [label]: updatedFieldSet };
+                                });
+                              }}
+                              style={styles.input}
+                              placeholder={labelModificada}
+                            />
+                          </View>
+                        );
+                      } else if (columnName[0] == "a" && columnName[1] == "n" && columnName[2] == "o") {
+                        return (
+                          <View key={columnName} style={styles.fieldContainer}>
+                            <Text style={styles.label}>{labelModificada}</Text>
+                            <TextInputMask
+                              type={"custom"}
+                              options={{
+                                mask: "9999",
+                              }}
+                              value={value}
+                              onChangeText={(text) => {
+                                setInlineFields((prevFields) => {
+                                  const updatedFieldSet = [...prevFields[label]];
+                                  updatedFieldSet[index] = updatedFieldSet[index].map((field) =>
+                                    field.columnName === columnName ? { ...field, value: text } : field
+                                  );
+                    
+                                  setFormData((prevData) => ({
+                                    ...prevData,
+                                    [label]: updatedFieldSet,
+                                  }));
+                    
+                                  return { ...prevFields, [label]: updatedFieldSet };
+                                });
+                              }}
+                              style={styles.input}
+                              placeholder={labelModificada}
+                            />
+                          </View>
+                        );
+                      }
+                      
+                      // Caso default (não é nenhum dos casos específicos)
                       return (
                         <View key={columnName} style={styles.fieldContainer}>
                           <Text style={styles.label}>{labelModificada}</Text>
                           <TextInput
                             style={styles.input}
+                            placeholder={labelModificada}
                             value={value}
                             onChangeText={(text) => {
                               setInlineFields((prevFields) => {
@@ -499,19 +710,21 @@ const renderField = (field) => {
                                 updatedFieldSet[index] = updatedFieldSet[index].map((field) =>
                                   field.columnName === columnName ? { ...field, value: text } : field
                                 );
-        
+                    
                                 setFormData((prevData) => ({
                                   ...prevData,
                                   [label]: updatedFieldSet,
                                 }));
-        
+                    
                                 return { ...prevFields, [label]: updatedFieldSet };
                               });
                             }}
                           />
                         </View>
                       );
-                    } else if (type === "picker") {
+                    }
+                    
+                    else if (type === "picker") {
                       const labelINL = labelsInline[label] || label;  
                       return (
                         <View key={columnName} style={styles.fieldContainer}>

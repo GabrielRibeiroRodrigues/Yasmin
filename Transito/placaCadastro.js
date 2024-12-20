@@ -120,7 +120,7 @@ return (
             <ScrollView>
             <FormComponent 
             database = {'transito'} 
-            tabelas = {['teste']} 
+            tabelas = {['teste','testeInline']} 
             fields={fields}  
             initialData={{}} 
              ocultar = {['id','Veiculos_id']} 
@@ -178,6 +178,15 @@ const createVeiculoMotorista = async () => {
 const createTeste = async () => {
     try {
         await SQLComponent.createTable('transito', 'Teste',[
+            { name: 'id', type: 'INTEGER', primaryKey: true },
+            { name: 'cpf', type: 'TEXT '},
+            { name: 'rg', type: 'TEXT'},
+            { name: 'data', type: 'TEXT'},
+            { name: 'telefone', type: 'TEXT'},
+            { name: 'valor', type: 'TEXT'},
+            { name: 'ano', type: 'TEXT'},
+        ]);
+        await SQLComponent.createTable('transito', 'TesteInline',[
             { name: 'id', type: 'INTEGER', primaryKey: true },
             { name: 'cpf', type: 'TEXT '},
             { name: 'rg', type: 'TEXT'},
